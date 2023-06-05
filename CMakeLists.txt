@@ -39,3 +39,6 @@ target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS} tutorial_compiler_flags)
 
 # Use target_include_directories to include ${PROJECT_BINARY_DIR}
 target_include_directories(Tutorial PUBLIC "${PROJECT_BINARY_DIR}")
+
+install(TARGETS Tutorial DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h" DESTINATION include)
