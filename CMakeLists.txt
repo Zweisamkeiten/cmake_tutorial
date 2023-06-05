@@ -44,7 +44,7 @@ install(TARGETS Tutorial DESTINATION bin)
 install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h" DESTINATION include)
 
 # enable testing
-enable_testing()
+include(CTest)
 
 # does the application run This test will verify that application runs, does not
 # segfault or otherwise crash, and has a zero return value.
