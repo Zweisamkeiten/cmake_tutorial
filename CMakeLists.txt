@@ -42,3 +42,32 @@ target_include_directories(Tutorial PUBLIC "${PROJECT_BINARY_DIR}")
 
 install(TARGETS Tutorial DESTINATION bin)
 install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h" DESTINATION include)
+
+# enable testing
+enable_testing()
+
+# does the application run This test will verify that application runs, does not
+# segfault or otherwise crash, and has a zero return value.
+add_test(NAME Runs COMMAND Tutorial 25)
+
+# does the usage message work?
+add_test(NAME Usage COMMAND Tutorial)
+# 使用 PASS_REGULAR_EXPRESSION测试属性 验证测试的输出是否包含某些字符
+set_tests_properties(Usage PROPERTIES PASS_REGULAR_EXPRESSION "Usage:.*number")
+
+add_test(NAME StandardUse COMMAND Tutorial 4)
+set_tests_properties(StandardUse PROPERTIES PASS_REGULAR_EXPRESSION "4 is 2")
+
+function(do_test target arg result)
+  add_test(NAME Comp${arg} COMMAND ${target} ${arg})
+  set_tests_properties(Comp${arg} PROPERTIES PASS_REGULAR_EXPRESSION ${result})
+endfunction()
+
+# do a bunch of result based tests
+do_test(Tutorial 4 "4 is 2")
+do_test(Tutorial 9 "9 is 3")
+do_test(Tutorial 5 "5 is 2.236")
+do_test(Tutorial 7 "7 is 2.645")
+do_test(Tutorial 25 "25 is 5")
+do_test(Tutorial -25 "-25 is (-nan|nan|0)")
+do_test(Tutorial 0.0001 "0.0001 is 0.01")
