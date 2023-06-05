@@ -1,3 +1,4 @@
+#include "MathFunctions.h"
 #include "TutorialConfig.h"
 #include <cmath>
 #include <iostream>
@@ -12,7 +13,7 @@ int main(int argc, char *argv[]) {
   // c++11 func
   const double inputValue = std::stod(argv[1]);
 
-  const double outputValue = sqrt(inputValue);
+  const double outputValue = mysqrt(inputValue);
   std::cout << "The square root of " << inputValue << " is " << outputValue
             << std::endl;
   return EXIT_SUCCESS;
