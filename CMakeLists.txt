@@ -9,19 +9,26 @@ project(Tutorial VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# should we use our own math functions
+option(USE_MYMATH "Use tutorial provided math implementation" ON)
+
 # Use configure_file to configure and copy TutorialConfig.h.in to
 # TutorialConfig.h
 configure_file(TutorialConfig.h.in TutorialConfig.h)
 
 # add the MathFunctions library
-add_subdirectory(MathFunctions)
+if(USE_MYMATH)
+  add_subdirectory(MathFunctions)
+  list(APPEND EXTRA_LIBS MathFunctions)
+  list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/MathFunctions")
+endif()
 
 # Add an executable call Tutorial to the project
 add_executable(Tutorial tutorial.cxx)
 
 # link library
-target_link_libraries(Tutorial PUBLIC MathFunctions)
+target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
 
 # Use target_include_directories to include ${PROJECT_BINARY_DIR}
-target_include_directories(
-  Tutorial PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/MathFunctions")
+target_include_directories(Tutorial PUBLIC "${PROJECT_BINARY_DIR}"
+                                           ${EXTRA_INCLUDES})
