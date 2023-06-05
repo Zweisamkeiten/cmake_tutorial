@@ -6,6 +6,31 @@ target_include_directories(MathFunctions INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(MathFunctions tutorial_compiler_flags)
 
+# does this system provide the log and exp function?
+include(CheckCXXSourceCompiles)
+check_cxx_source_compiles(
+  "#include <cmath>
+  int main() {
+    std::log(1.0);
+    return 0;
+  }
+"
+  HAVE_LOG)
+
+check_cxx_source_compiles(
+  "#include <cmath>
+  int main() {
+    std::exp(1.0);
+    return 0;
+  }
+"
+  HAVE_EXP)
+
+# add compile definitions
+if(HAVE_LOG AND HAVE_EXP)
+  target_compile_definitions(MathFunctions PRIVATE "HAVE_LOG" "HAVE_EXP")
+endif()
+
 set(installable_libs MathFunctions tutorial_compiler_flags)
 install(TARGETS ${installable_libs} DESTINATION lib)
 
