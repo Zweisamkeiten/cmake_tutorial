@@ -43,6 +43,10 @@ target_link_libraries(MathFunctions PUBLIC tutorial_compiler_flags)
 # on windows
 target_compile_definitions(MathFunctions PRIVATE "EXPORTING_MYMATH")
 
+# setput the version numbering
+set_property(TARGET MathFunctions PROPERTY VERSION "1.0.0")
+set_property(TARGET MathFunctions PROPERTY SOVERSION "1")
+
 set(installable_libs MathFunctions tutorial_compiler_flags)
 if(TARGET SqrtLibrary)
   list(APPEND installable_libs SqrtLibrary)

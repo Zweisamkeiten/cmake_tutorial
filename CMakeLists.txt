@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.15)
 # Create a project named Tutorial Set the project version number as 1.0
 project(Tutorial VERSION 1.0)
 
+set(CMAKE_DEBUG_POSTFIX d)
+
 # Setting the C++ Standard with Interface Libraries
 add_library(tutorial_compiler_flags INTERFACE) # 创建界面库 tutorial_compiler_flags
 target_compile_features(tutorial_compiler_flags INTERFACE cxx_std_11)
@@ -35,6 +37,7 @@ add_subdirectory(MathFunctions)
 
 # Add an executable call Tutorial to the project
 add_executable(Tutorial tutorial.cxx)
+set_target_properties(Tutorial PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 # link library
 target_link_libraries(Tutorial PUBLIC MathFunctions tutorial_compiler_flags)

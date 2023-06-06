@@ -11,3 +11,6 @@ CTestTestfile.cmake
 _deps
 .cache/clangd/index
 build
+_CPack_Packages
+debug
+release
