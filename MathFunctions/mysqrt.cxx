@@ -1,8 +1,11 @@
-#include <cmath>
 #include <iostream>
+
+#include "MathFunctions.h"
 
 #include "Table.h"
 
+namespace mathfunctions {
+namespace detail {
 double mysqrt(double x) {
   if (x <= 0) {
     return 0;
@@ -27,3 +30,5 @@ double mysqrt(double x) {
 
   return result;
 }
+} // namespace detail
+} // namespace mathfunctions

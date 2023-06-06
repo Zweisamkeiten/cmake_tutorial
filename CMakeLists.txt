@@ -18,24 +18,26 @@ target_compile_options(
     "$<${gcc_lik_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
     "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>")
 
-# should we use our own math functions
-option(USE_MYMATH "Use tutorial provided math implementation" ON)
+# control where the static and shared libraries are built so that on windows we
+# don't need to tinker with the path to run the executable
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 # Use configure_file to configure and copy TutorialConfig.h.in to
 # TutorialConfig.h
 configure_file(TutorialConfig.h.in TutorialConfig.h)
 
 # add the MathFunctions library
-if(USE_MYMATH)
-  add_subdirectory(MathFunctions)
-  list(APPEND EXTRA_LIBS MathFunctions)
-endif()
+add_subdirectory(MathFunctions)
 
 # Add an executable call Tutorial to the project
 add_executable(Tutorial tutorial.cxx)
 
 # link library
-target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS} tutorial_compiler_flags)
+target_link_libraries(Tutorial PUBLIC MathFunctions tutorial_compiler_flags)
 
 # Use target_include_directories to include ${PROJECT_BINARY_DIR}
 target_include_directories(Tutorial PUBLIC "${PROJECT_BINARY_DIR}")
